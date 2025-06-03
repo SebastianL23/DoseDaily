@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ChevronRight } from "lucide-react"
+import { ChevronRightIcon } from "@heroicons/react/24/outline"
 import ProductCard from "@/components/product-card"
 import HeroBanner from "@/components/hero-banner"
 import FeaturedCategories from "@/components/featured-categories"
@@ -9,7 +9,7 @@ import NewsletterSignup from "@/components/newsletter-signup"
 
 // Add type assertions
 const NextLink = Link as any
-const NextChevronRight = ChevronRight as any
+const NextChevronRight = ChevronRightIcon as any
 
 export default function Home() {
   return (
