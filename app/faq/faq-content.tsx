@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Mail } from 'lucide-react'
+import { FiMail } from 'react-icons/fi'
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Separator } from "@/components/ui/separator"
@@ -356,7 +356,7 @@ export default function FAQContent() {
         </p>
         <Button asChild className="bg-moss-500 hover:bg-moss-600">
           <Link href="/contact" className="flex items-center gap-2">
-            <Mail className="h-4 w-4" /> Contact Us
+            <FiMail className="h-4 w-4" /> Contact Us
           </Link>
         </Button>
       </div>
