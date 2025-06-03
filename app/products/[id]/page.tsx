@@ -4,17 +4,17 @@ import { useState } from "react"
 import { useCart } from "@/components/cart-provider"
 import { CoinbaseCheckout } from "@/components/coinbase-checkout"
 import { toast } from "sonner"
-import { ShoppingBag, Minus, Plus, Heart, Share, ChevronRight, Star, Truck } from "lucide-react"
+import { ShoppingBagIcon, MinusCircleIcon, PlusCircleIcon, HeartIcon, ShareIcon, ChevronRightIcon, StarIcon, TruckIcon } from "@heroicons/react/24/outline"
 
 // Add type assertions
-const NextBag = ShoppingBag
-const NextMinus = Minus
-const NextPlus = Plus
-const NextHeart = Heart
-const NextShare = Share
-const NextChevronRight = ChevronRight
-const NextStar = Star
-const NextTruck = Truck
+const NextBag = ShoppingBagIcon
+const NextMinus = MinusCircleIcon
+const NextPlus = PlusCircleIcon
+const NextHeart = HeartIcon
+const NextShare = ShareIcon
+const NextChevronRight = ChevronRightIcon
+const NextStar = StarIcon
+const NextTruck = TruckIcon
 
 function ProductActions({ product, quantity, setQuantity, calculatePrice, selectedCannabinoidType, setSelectedCannabinoidType }: { 
   product: any, 
