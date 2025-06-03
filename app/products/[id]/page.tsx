@@ -4,10 +4,17 @@ import { useState } from "react"
 import { useCart } from "@/components/cart-provider"
 import { CoinbaseCheckout } from "@/components/coinbase-checkout"
 import { toast } from "sonner"
-import { ShoppingBag } from "lucide-react"
+import { ShoppingBag, Minus, Plus, Heart, Share2, ChevronRight, Star, Truck } from "lucide-react"
 
 // Add type assertions
-const NextShoppingBag = ShoppingBag as any
+const NextShoppingBag = ShoppingBag
+const NextMinus = Minus
+const NextPlus = Plus
+const NextHeart = Heart
+const NextShare2 = Share2
+const NextChevronRight = ChevronRight
+const NextStar = Star
+const NextTruck = Truck
 
 function ProductActions({ product, quantity, setQuantity, calculatePrice, selectedCannabinoidType, setSelectedCannabinoidType }: { 
   product: any, 
@@ -96,7 +103,6 @@ function ProductActions({ product, quantity, setQuantity, calculatePrice, select
 import { use } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronRight, Heart, Minus, Plus, Share2, Star, Truck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
@@ -110,13 +116,6 @@ const NextTabs = Tabs as any
 const NextTabsList = TabsList as any
 const NextTabsTrigger = TabsTrigger as any
 const NextTabsContent = TabsContent as any
-const NextChevronRight = ChevronRight as any
-const NextHeart = Heart as any
-const NextMinus = Minus as any
-const NextPlus = Plus as any
-const NextShare2 = Share2 as any
-const NextStar = Star as any
-const NextTruck = Truck as any
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   // Unwrap the params using React.use()
