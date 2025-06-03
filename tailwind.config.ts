@@ -1,0 +1,172 @@
+import type { Config } from "tailwindcss"
+
+const config = {
+  darkMode: ["class"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+    "*.{js,ts,jsx,tsx,mdx}",
+  ],
+  prefix: "",
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        sage: {
+          50: "#f4f7f4",
+          100: "#e6eee6",
+          200: "#d1dfd1",
+          300: "#b3c9b3",
+          400: "#8fad8f",
+          500: "#6d8f6d",
+          600: "#557355",
+          700: "#445a44",
+          800: "#374837",
+          900: "#2d3b2d",
+          950: "#1a221a",
+        },
+        sand: {
+          50: "#e0c36c",
+          100: "#e0c36c",
+          200: "#e0c36c",
+          300: "#e0c36c",
+          400: "#e0c36c",
+          500: "#e0c36c",
+          600: "#e0c36c",
+          700: "#e0c36c",
+          800: "#e0c36c",
+          900: "#e0c36c",
+          950: "#e0c36c",
+        },
+        moss: {
+          50: "#f3f7f3",
+          100: "#e4eee4",
+          200: "#c9dcc9",
+          300: "#a5c2a5",
+          400: "#7ba37b",
+          500: "#5a855a",
+          600: "#476a47",
+          700: "#3a553a",
+          800: "#314531",
+          900: "#2a3a2a",
+          950: "#151f15",
+        },
+        stone: {
+          50: "#fafaf9",
+          100: "#f5f5f4",
+          200: "#e7e5e4",
+          300: "#d6d3d1",
+          400: "#a8a29e",
+          500: "#78716c",
+          600: "#57534e",
+          700: "#44403c",
+          800: "#292524",
+          900: "#1c1917",
+          950: "#0c0a09",
+        },
+        forest: {
+          50: "#f2f7f2",
+          100: "#e0ebe0",
+          200: "#c2d6c2",
+          300: "#9ab99a",
+          400: "#6d966d",
+          500: "#4d7a4d",
+          600: "#3b613b",
+          700: "#314d31",
+          800: "#2a3f2a",
+          900: "#253525",
+          950: "#131c13",
+        },
+        gold: {
+          50: "#fdf8e8",
+          100: "#f9ecc2",
+          200: "#f3d989",
+          300: "#ecc24d",
+          400: "#e5ab2a",
+          500: "#d69117"
+        },
+      },
+      fontFamily: {
+        sans: [
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "Noto Sans",
+          "sans-serif",
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "Noto Color Emoji",
+        ],
+        canela: ['var(--font-canela)'],
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+} satisfies Config
+
+export default config

@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base colors - keeping clean white */
+    --background: 0 0% 100%;
+    --foreground: 20 14% 4%;
+
+    /* Card and popover - subtle variations */
+    --card: 0 0% 100%;
+    --card-foreground: 20 14% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14% 4%;
+
+    /* Primary - rich, sophisticated green */
+    --primary: 150 50% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - warm beige */
+    --secondary: 40 30% 96%;
+    --secondary-foreground: 20 14% 4%;
+
+    /* Muted - refined beige */
+    --muted: 40 30% 96%;
+    --muted-foreground: 20 14% 45%;
+
+    /* Accent - sophisticated highlight */
+    --accent: 150 50% 96%;
+    --accent-foreground: 150 50% 35%;
+
+    /* Destructive - refined red */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Border and input - subtle separation */
+    --border: 40 30% 90%;
+    --input: 40 30% 90%;
+    --ring: 150 50% 35%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark mode - sophisticated dark theme */
+    --background: 20 14% 4%;
+    --foreground: 40 30% 98%;
+
+    --card: 20 14% 8%;
+    --card-foreground: 40 30% 98%;
+    --popover: 20 14% 8%;
+    --popover-foreground: 40 30% 98%;
+
+    --primary: 150 50% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 30% 12%;
+    --secondary-foreground: 40 30% 98%;
+
+    --muted: 40 30% 12%;
+    --muted-foreground: 40 30% 80%;
+
+    --accent: 150 50% 20%;
+    --accent-foreground: 150 50% 95%;
+
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 30% 16%;
+    --input: 40 30% 16%;
+    --ring: 150 50% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
