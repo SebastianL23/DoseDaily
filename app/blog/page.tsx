@@ -1,12 +1,12 @@
 import Link from "next/link"
 import Image from "next/image"
-import { CalendarDays, Clock, ChevronRight, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { blogPosts, categories } from "./blog-data"
 import NewsletterForm from "../components/NewsletterForm"
+import { Metadata } from "next"
 
 // Add type assertions for components
 const NextLink = Link as any
@@ -16,11 +16,10 @@ const NextBadge = Badge as any
 const NextSeparator = Separator as any
 const NextImage = Image as any
 
-// Add type assertions for icons
-const NextCalendarDays = CalendarDays as any
-const NextClock = Clock as any
-const NextChevronRight = ChevronRight as any
-const NextSearch = Search as any
+export const metadata: Metadata = {
+  title: "Blog - CBD2",
+  description: "Latest news and articles about CBD and cannabis",
+}
 
 export default function BlogPage() {
   // Find the featured post
@@ -43,7 +42,11 @@ export default function BlogPage() {
         <div className="flex-1 max-w-md">
           <div className="relative">
             <NextInput placeholder="Search articles..." className="pl-10 pr-4" />
-            <NextSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              </svg>
+            </span>
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -84,17 +87,25 @@ export default function BlogPage() {
               <p className="text-gray-600">{featuredPost.excerpt}</p>
               <div className="flex items-center text-sm text-gray-500 gap-4">
                 <div className="flex items-center">
-                  <NextCalendarDays className="h-4 w-4 mr-1" />
+                  <span className="h-4 w-4 mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                  </span>
                   <span>{featuredPost.date}</span>
                 </div>
                 <div className="flex items-center">
-                  <NextClock className="h-4 w-4 mr-1" />
+                  <span className="h-4 w-4 mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h.008v.008H12v6M12 6a6 6 0 100 12 6 6 0 000-12z" />
+                    </svg>
+                  </span>
                   <span>{featuredPost.readTime} min read</span>
                 </div>
               </div>
               <NextButton asChild className="bg-moss-500 hover:bg-moss-600">
                 <NextLink href={`/blog/${featuredPost.slug}`}>
-                  Read Article <NextChevronRight className="ml-1 h-4 w-4" />
+                  Read Article
                 </NextLink>
               </NextButton>
             </div>
@@ -112,7 +123,7 @@ export default function BlogPage() {
             rel="noopener noreferrer"
             className="text-moss-500 hover:text-moss-600 flex items-center"
           >
-            View All <NextChevronRight className="ml-1 h-4 w-4" />
+            View All
           </a>
         </div>
 
@@ -136,11 +147,19 @@ export default function BlogPage() {
               <p className="text-gray-600 mb-3 line-clamp-2">{post.excerpt}</p>
               <div className="flex items-center text-sm text-gray-500 gap-4">
                 <div className="flex items-center">
-                  <NextCalendarDays className="h-4 w-4 mr-1" />
+                  <span className="h-4 w-4 mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                  </span>
                   <span>{post.date}</span>
                 </div>
                 <div className="flex items-center">
-                  <NextClock className="h-4 w-4 mr-1" />
+                  <span className="h-4 w-4 mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h.008v.008H12v6M12 6a6 6 0 100 12 6 6 0 000-12z" />
+                    </svg>
+                  </span>
                   <span>{post.readTime} min read</span>
                 </div>
               </div>
