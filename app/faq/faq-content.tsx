@@ -356,7 +356,7 @@ export default function FAQContent() {
         </p>
         <Button asChild className="bg-moss-500 hover:bg-moss-600">
           <Link href="/contact" className="flex items-center gap-2">
-            <FiMail className="h-4 w-4" /> Contact Us
+            <FiMail size={16} /> Contact Us
           </Link>
         </Button>
       </div>
