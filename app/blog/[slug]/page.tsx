@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { CalendarDays, Clock, ArrowLeft, Facebook, Twitter, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
@@ -23,14 +22,6 @@ const NextAvatarFallback = AvatarFallback as any
 const NextSeparator = Separator as any
 const NextBadge = Badge as any
 const NextImage = Image as any
-
-// Add type assertions for icons
-const NextCalendarDays = CalendarDays as any
-const NextClock = Clock as any
-const NextArrowLeft = ArrowLeft as any
-const NextFacebook = Facebook as any
-const NextTwitter = Twitter as any
-const NextLinkedin = Linkedin as any
 
 export default function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
@@ -130,12 +121,20 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
           <NextSeparator orientation="vertical" className="h-8" />
 
           <div className="flex items-center text-sm text-gray-500">
-            <NextCalendarDays className="h-4 w-4 mr-1" />
+            <span className="h-4 w-4 mr-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h.008v.008H12v6M12 6a6 6 0 100 12 6 6 0 000-12z" />
+              </svg>
+            </span>
             <span>{post.date}</span>
           </div>
 
           <div className="flex items-center text-sm text-gray-500">
-            <NextClock className="h-4 w-4 mr-1" />
+            <span className="h-4 w-4 mr-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h.008v.008H12v6M12 6a6 6 0 100 12 6 6 0 000-12z" />
+              </svg>
+            </span>
             <span>{post.readTime} min read</span>
           </div>
         </div>
@@ -272,13 +271,19 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         <span className="text-sm font-medium">Share this article:</span>
         <div className="flex gap-2">
           <NextButton variant="outline" size="icon" className="rounded-full">
-            <NextFacebook className="h-4 w-4" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.25A6 6 0 006.031 21H5.25a8.25 8.25 0 0115.464-4.743c.354.922.546 1.925.546 2.955z" />
+            </svg>
           </NextButton>
           <NextButton variant="outline" size="icon" className="rounded-full">
-            <NextTwitter className="h-4 w-4" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.25A6 6 0 006.031 21H5.25a8.25 8.25 0 0115.464-4.743c.354.922.546 1.925.546 2.955z" />
+            </svg>
           </NextButton>
           <NextButton variant="outline" size="icon" className="rounded-full">
-            <NextLinkedin className="h-4 w-4" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.25A6 6 0 006.031 21H5.25a8.25 8.25 0 0115.464-4.743c.354.922.546 1.925.546 2.955z" />
+            </svg>
           </NextButton>
         </div>
       </div>
@@ -314,7 +319,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
       <div className="flex justify-start items-center mb-12">
         <NextButton variant="outline" className="flex items-center gap-2" asChild>
           <NextLink href="/blog">
-            <NextArrowLeft className="h-4 w-4" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
             Back to Blog
           </NextLink>
         </NextButton>
@@ -339,11 +346,19 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
               </h3>
               <div className="flex items-center text-sm text-gray-500 gap-4 mb-2">
                 <div className="flex items-center">
-                  <NextCalendarDays className="h-4 w-4 mr-1" />
+                  <span className="h-4 w-4 mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h.008v.008H12v6M12 6a6 6 0 100 12 6 6 0 000-12z" />
+                    </svg>
+                  </span>
                   <span>{relatedPost.date}</span>
                 </div>
                 <div className="flex items-center">
-                  <NextClock className="h-4 w-4 mr-1" />
+                  <span className="h-4 w-4 mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h.008v.008H12v6M12 6a6 6 0 100 12 6 6 0 000-12z" />
+                    </svg>
+                  </span>
                   <span>{relatedPost.readTime} min read</span>
                 </div>
               </div>
