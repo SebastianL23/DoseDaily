@@ -4,14 +4,14 @@ import { useState } from "react"
 import { useCart } from "@/components/cart-provider"
 import { CoinbaseCheckout } from "@/components/coinbase-checkout"
 import { toast } from "sonner"
-import { ShoppingCart, Minus, Plus, Heart, Share2, ChevronRight, Star, Truck } from "lucide-react"
+import { ShoppingBag, Minus, Plus, Heart, Share, ChevronRight, Star, Truck } from "lucide-react"
 
 // Add type assertions
-const NextShoppingCart = ShoppingCart
+const NextBag = ShoppingBag
 const NextMinus = Minus
 const NextPlus = Plus
 const NextHeart = Heart
-const NextShare2 = Share2
+const NextShare = Share
 const NextChevronRight = ChevronRight
 const NextStar = Star
 const NextTruck = Truck
@@ -83,7 +83,7 @@ function ProductActions({ product, quantity, setQuantity, calculatePrice, select
           size="lg" 
           onClick={handleAddToCart}
         >
-          <NextShoppingCart className="h-5 w-5 mr-2" />
+          <NextBag className="h-5 w-5 mr-2" />
           Add to Cart
         </NextButton>
         <div className="flex gap-2">
@@ -91,7 +91,7 @@ function ProductActions({ product, quantity, setQuantity, calculatePrice, select
             <NextHeart className="h-5 w-5" />
           </NextButton>
           <NextButton variant="outline" size="icon" className="rounded-full">
-            <NextShare2 className="h-5 w-5" />
+            <NextShare className="h-5 w-5" />
           </NextButton>
         </div>
       </div>
