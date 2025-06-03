@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { FiMail } from 'react-icons/fi'
+import { EnvelopeIcon } from "@heroicons/react/24/outline"
 import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Separator } from "@/components/ui/separator"
@@ -356,7 +356,7 @@ export default function FAQContent() {
         </p>
         <Button asChild className="bg-moss-500 hover:bg-moss-600">
           <Link href="/contact" className="flex items-center gap-2">
-            <FiMail size={16} /> Contact Us
+            <EnvelopeIcon className="h-4 w-4" /> Contact Us
           </Link>
         </Button>
       </div>
