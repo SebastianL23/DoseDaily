@@ -3,19 +3,15 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Minus, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/components/cart-provider"
 import { toast } from "sonner"
 import { CoinbaseCheckout } from "@/components/coinbase-checkout"
 
-// Add type assertions
-const NextImage = Image as any
+// Add type assertions for components
 const NextLink = Link as any
 const NextButton = Button as any
-const NextMinus = Minus as any
-const NextPlus = Plus as any
-const NextTrash2 = Trash2 as any
+const NextImage = Image as any
 
 interface ShippingAddress {
   name: string;
@@ -190,7 +186,11 @@ export default function CartPage() {
                             className="h-8 w-8"
                             onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
                           >
-                            <NextMinus className="h-3 w-3" />
+                            <span className="h-4 w-4">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
+                              </svg>
+                            </span>
                           </NextButton>
                           <span className="w-8 text-center">{item.quantity}</span>
                           <NextButton
@@ -199,7 +199,11 @@ export default function CartPage() {
                             className="h-8 w-8"
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           >
-                            <NextPlus className="h-3 w-3" />
+                            <span className="h-4 w-4">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                              </svg>
+                            </span>
                           </NextButton>
                         </div>
                         <NextButton
@@ -208,7 +212,11 @@ export default function CartPage() {
                           className="text-red-500 hover:text-red-600"
                           onClick={() => removeFromCart(item.id)}
                         >
-                          <NextTrash2 className="h-4 w-4" />
+                          <span className="h-5 w-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                            </svg>
+                          </span>
                         </NextButton>
                       </div>
                     </div>
