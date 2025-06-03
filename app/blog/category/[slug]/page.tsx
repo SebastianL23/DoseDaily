@@ -5,12 +5,15 @@ import { Badge } from "@/components/ui/badge"
 import { blogPosts, categories } from "../../blog-data"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
-
+import { FunnelIcon, Squares2X2Icon, ListBulletIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from "@heroicons/react/24/outline"
 // Add type assertions for components
 const NextLink = Link as any
 const NextButton = Button as any
 const NextBadge = Badge as any
 const NextImage = Image as any
+const NextFilter = FunnelIcon as any
+const NextGrid3X3 = Squares2X2Icon as any
+const NextList = ListBulletIcon as any
 
 interface CategoryPageProps {
   params: Promise<{
