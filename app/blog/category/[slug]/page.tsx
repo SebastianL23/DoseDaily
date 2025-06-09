@@ -11,9 +11,6 @@ const NextLink = Link as any
 const NextButton = Button as any
 const NextBadge = Badge as any
 const NextImage = Image as any
-const NextFilter = FunnelIcon as any
-const NextGrid3X3 = Squares2X2Icon as any
-const NextList = ListBulletIcon as any
 
 interface CategoryPageProps {
   params: Promise<{

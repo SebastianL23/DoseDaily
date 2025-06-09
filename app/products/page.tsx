@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
-import { Filter, Grid3X3, List, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { Cog6ToothIcon, Squares2X2Icon, ListBulletIcon, ChevronLeftIcon, ChevronRightIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon, Bars3Icon } from "@heroicons/react/24/outline"
 import ProductCard from "@/components/product-card"
 import ProductFilters, { type FilterState } from "@/components/product-filters"
 import { Button } from "@/components/ui/button"
@@ -22,13 +22,14 @@ const NextSelectValue = SelectValue as any
 const NextSheet = Sheet as any
 const NextSheetContent = SheetContent as any
 const NextSheetTrigger = SheetTrigger as any
-const NextFilter = Filter as any
-const NextGrid3X3 = Grid3X3 as any
-const NextList = List as any
-const NextChevronLeft = ChevronLeft as any
-const NextChevronRight = ChevronRight as any
-const NextChevronsLeft = ChevronsLeft as any
-const NextChevronsRight = ChevronsRight as any
+const NextFilter = Cog6ToothIcon as any
+const NextGrid3X3 = Squares2X2Icon as any
+const NextList = ListBulletIcon as any
+const NextChevronLeft = ChevronLeftIcon as any
+const NextChevronRight = ChevronRightIcon as any
+const NextChevronsLeft = ChevronDoubleLeftIcon as any
+const NextChevronsRight = ChevronDoubleRightIcon as any
+const NextMenu = Bars3Icon as any
 
 export default function ProductsPage() {
   const searchParams = useSearchParams()

@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
+import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline"
 
 // Add type assertions
 const NextAccordion = Accordion as any
@@ -14,6 +15,7 @@ const NextAccordionTrigger = AccordionTrigger as any
 const NextAccordionContent = AccordionContent as any
 const NextCheckbox = Checkbox as any
 const NextSlider = Slider as any
+const NextSlidersHorizontal = AdjustmentsHorizontalIcon as any
 
 export type FilterState = {
   categories: string[]
