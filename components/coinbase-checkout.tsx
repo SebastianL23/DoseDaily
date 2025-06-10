@@ -5,6 +5,15 @@ import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { useCart } from '@/components/cart-provider'
 
+interface ShippingAddress {
+  line1: string;
+  line2?: string;
+  city: string;
+  postal_code: string;
+  country: string;
+  email: string;
+}
+
 interface CoinbaseCheckoutProps {
   product: {
     name: string
@@ -22,6 +31,14 @@ export function CoinbaseCheckout({ product, onSuccess, onError }: CoinbaseChecko
   const handleCheckout = async () => {
     setIsLoading(true)
     try {
+      // Transform shipping address to match expected format
+      const formattedShippingAddress = {
+        ...shippingAddress,
+        line1: shippingAddress.line1,
+        line2: shippingAddress.line2,
+        postal_code: shippingAddress.postal_code
+      };
+
       // First create the order in our backend
       console.log('Creating order with data:', {
         items: [{
@@ -33,7 +50,7 @@ export function CoinbaseCheckout({ product, onSuccess, onError }: CoinbaseChecko
         total: product.price,
         currency: 'GBP',
         customer_email: discountEmail,
-        shipping_address: shippingAddress
+        shipping_address: formattedShippingAddress
       })
 
       const orderResponse = await fetch('/api/create-order', {
@@ -51,7 +68,7 @@ export function CoinbaseCheckout({ product, onSuccess, onError }: CoinbaseChecko
           total: product.price,
           currency: 'GBP',
           customer_email: discountEmail,
-          shipping_address: shippingAddress
+          shipping_address: formattedShippingAddress
         })
       })
 

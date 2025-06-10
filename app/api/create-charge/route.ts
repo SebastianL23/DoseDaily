@@ -27,11 +27,13 @@ export async function POST(request: Request) {
     // Get API key from environment
     const apiKey = process.env.COINBASE_COMMERCE_API_KEY
 
-    // Log environment check details
-    console.log('Environment check:', {
+    // Enhanced environment check logging
+    console.log('Environment check details:', {
       hasApiKey: !!apiKey,
       apiKeyLength: apiKey?.length,
-      nodeEnv: process.env.NODE_ENV
+      apiKeyPrefix: apiKey?.substring(0, 8) + '...', // Log first 8 chars for debugging
+      nodeEnv: process.env.NODE_ENV,
+      allEnvKeys: Object.keys(process.env).filter(key => key.includes('COINBASE'))
     })
 
     // Validate API key exists
@@ -43,22 +45,39 @@ export async function POST(request: Request) {
       )
     }
 
+    // Log the request headers we're about to send
+    const headers = {
+      'Content-Type': 'application/json',
+      'X-CC-Api-Key': apiKey,
+      'X-CC-Version': '2018-03-22'
+    }
+    console.log('Request headers:', {
+      ...headers,
+      'X-CC-Api-Key': headers['X-CC-Api-Key']?.substring(0, 8) + '...' // Only log first 8 chars of API key
+    })
+
     // Make request to Coinbase Commerce API
     const response = await fetch('https://api.commerce.coinbase.com/charges', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CC-Api-Key': apiKey,
-        'X-CC-Version': '2018-03-22'
-      },
+      headers,
       body: JSON.stringify(body)
     })
 
     const data = await response.json()
-    console.log('Coinbase Commerce API response:', data)
+    console.log('Coinbase Commerce API response:', {
+      status: response.status,
+      statusText: response.statusText,
+      data: data,
+      headers: Object.fromEntries(response.headers.entries())
+    })
 
     if (!response.ok) {
-      console.error('Coinbase Commerce API error:', data)
+      console.error('Coinbase Commerce API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        data: data,
+        headers: Object.fromEntries(response.headers.entries())
+      })
       return NextResponse.json(
         { error: data.error?.message || 'Failed to create charge' },
         { status: response.status }

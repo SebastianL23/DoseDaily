@@ -91,8 +91,8 @@ export default function HeroBanner() {
                   <NextImage
                     src="/images/techniciancert.png"
                     alt="Certified Technician"
-                    width={32}
-                    height={32}
+                    width={48}
+                    height={48}
                     className="object-contain"
                   />
                 </div>
@@ -100,8 +100,8 @@ export default function HeroBanner() {
                   <NextImage
                     src="/images/thirdparty.webp"
                     alt="Third Party Verified"
-                    width={32}
-                    height={32}
+                    width={48}
+                    height={48}
                     className="object-contain"
                   />
                 </div>
@@ -109,8 +109,8 @@ export default function HeroBanner() {
                   <NextImage
                     src="/images/organic.png"
                     alt="Organic Certified"
-                    width={32}
-                    height={32}
+                    width={48}
+                    height={48}
                     className="object-contain"
                   />
                 </div>

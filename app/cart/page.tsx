@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/components/cart-provider"
 import { toast } from "sonner"
 import { CoinbaseCheckout } from "@/components/coinbase-checkout"
+import React from "react"
 
 // Add type assertions for components
 const NextLink = Link as any
@@ -14,17 +15,12 @@ const NextButton = Button as any
 const NextImage = Image as any
 
 interface ShippingAddress {
-  name: string;
-  company?: string;
-  street1: string;
-  street2?: string;
+  line1: string;
+  line2?: string;
   city: string;
-  state: string;
-  zip: string;
+  postal_code: string;
   country: string;
-  phone: string;
   email: string;
-  is_residential: boolean;
 }
 
 export default function CartPage() {
@@ -49,6 +45,23 @@ export default function CartPage() {
     setShippingAddress: (value: ShippingAddress | ((prev: ShippingAddress) => ShippingAddress)) => void;
     clearCart: () => void;
   }
+
+  const initialized = React.useRef(false);
+
+  // Initialize shipping address with default values only once
+  useEffect(() => {
+    if (!initialized.current) {
+      setShippingAddress({
+        line1: '',
+        line2: '',
+        city: '',
+        postal_code: '',
+        country: 'United Kingdom',
+        email: ''
+      });
+      initialized.current = true;
+    }
+  }, [setShippingAddress]);
 
   console.log('Cart data in page:', cart) // Debug log
 
@@ -98,17 +111,12 @@ export default function CartPage() {
     try {
       const orderData = {
         to_address: {
-          name: shippingAddress.name,
-          company: shippingAddress.company,
-          street1: shippingAddress.street1,
-          street2: shippingAddress.street2,
+          line1: shippingAddress.line1,
+          line2: shippingAddress.line2,
           city: shippingAddress.city,
-          state: shippingAddress.state,
-          zip: shippingAddress.zip,
+          postal_code: shippingAddress.postal_code,
           country: shippingAddress.country,
-          phone: shippingAddress.phone,
-          email: shippingAddress.email,
-          is_residential: true
+          email: shippingAddress.email
         },
         line_items: formatLineItems(cart),
         placed_at: new Date().toISOString(),
@@ -261,74 +269,28 @@ export default function CartPage() {
               <h3 className="text-lg font-medium text-gray-900 mb-4">Shipping Address</h3>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="shipping-name" className="block text-sm font-medium text-gray-700">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="shipping-name"
-                    value={shippingAddress.name}
-                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, name: e.target.value }))}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                    required
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="shipping-email" className="block text-sm font-medium text-gray-700">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="shipping-email"
-                      value={shippingAddress.email}
-                      onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, email: e.target.value }))}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                      required
-                      placeholder="your@email.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="shipping-phone" className="block text-sm font-medium text-gray-700">
-                      Phone Number *
-                    </label>
-                    <input
-                      type="tel"
-                      id="shipping-phone"
-                      value={shippingAddress.phone}
-                      onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, phone: e.target.value }))}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                      required
-                      placeholder="07123456789"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="shipping-street1" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="shipping-line1" className="block text-sm font-medium text-gray-700">
                     Address Line 1 *
                   </label>
                   <input
                     type="text"
-                    id="shipping-street1"
-                    value={shippingAddress.street1}
-                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, street1: e.target.value }))}
+                    id="shipping-line1"
+                    value={shippingAddress.line1}
+                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, line1: e.target.value }))}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="shipping-street2" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="shipping-line2" className="block text-sm font-medium text-gray-700">
                     Address Line 2
                   </label>
                   <input
                     type="text"
-                    id="shipping-street2"
-                    value={shippingAddress.street2}
-                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, street2: e.target.value }))}
+                    id="shipping-line2"
+                    value={shippingAddress.line2}
+                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, line2: e.target.value }))}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
                   />
                 </div>
@@ -349,50 +311,48 @@ export default function CartPage() {
                   </div>
 
                   <div>
-                    <label htmlFor="shipping-state" className="block text-sm font-medium text-gray-700">
-                      County *
-                    </label>
-                    <input
-                      type="text"
-                      id="shipping-state"
-                      value={shippingAddress.state}
-                      onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, state: e.target.value }))}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                      required
-                      placeholder="e.g. Greater London"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="shipping-zip" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="shipping-postal_code" className="block text-sm font-medium text-gray-700">
                       Postcode *
                     </label>
                     <input
                       type="text"
-                      id="shipping-zip"
-                      value={shippingAddress.zip}
-                      onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, zip: e.target.value }))}
+                      id="shipping-postal_code"
+                      value={shippingAddress.postal_code}
+                      onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, postal_code: e.target.value }))}
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
                       required
                     />
                   </div>
+                </div>
 
-                  <div>
-                    <label htmlFor="shipping-country" className="block text-sm font-medium text-gray-700">
-                      Country *
-                    </label>
-                    <select
-                      id="shipping-country"
-                      value={shippingAddress.country}
-                      onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, country: e.target.value }))}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                      required
-                    >
-                      <option value="United Kingdom">United Kingdom</option>
-                    </select>
-                  </div>
+                <div>
+                  <label htmlFor="shipping-country" className="block text-sm font-medium text-gray-700">
+                    Country *
+                  </label>
+                  <select
+                    id="shipping-country"
+                    value={shippingAddress.country}
+                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, country: e.target.value }))}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
+                    required
+                  >
+                    <option value="United Kingdom">United Kingdom</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="shipping-email" className="block text-sm font-medium text-gray-700">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="shipping-email"
+                    value={shippingAddress.email}
+                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, email: e.target.value }))}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
+                    required
+                    placeholder="your@email.com"
+                  />
                 </div>
 
                 {/* Add validation message */}
@@ -420,7 +380,7 @@ export default function CartPage() {
                     }
 
                     // Validate required fields
-                    if (!shippingAddress.street1 || !shippingAddress.city || !shippingAddress.zip || !shippingAddress.email) {
+                    if (!shippingAddress.line1 || !shippingAddress.city || !shippingAddress.postal_code || !shippingAddress.email) {
                       toast.error("Please fill in all required shipping address fields");
                       return;
                     }
@@ -436,7 +396,7 @@ export default function CartPage() {
                       },
                       body: JSON.stringify({
                         email: shippingAddress.email,
-                        name: shippingAddress.street1.split(' ')[0], // Use first name from address
+                        name: shippingAddress.line1.split(' ')[0], // Use first name from address
                         tracking_number: shippoData.tracking_number,
                         tracking_url: shippoData.tracking_url,
                         order_id: shippoData.order_id
