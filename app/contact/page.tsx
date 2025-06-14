@@ -161,7 +161,7 @@ export default function ContactPage() {
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                  <p className="mt-1 text-gray-600">support@cbd2.com</p>
+                  <p className="mt-1 text-gray-600">support@dosedaily.com</p>
                 </div>
               </div>
 
@@ -176,7 +176,7 @@ export default function ContactPage() {
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-gray-900">Location</h3>
-                  <p className="mt-1 text-gray-600">London, United Kingdom</p>
+                  <p className="mt-1 text-gray-600">Bristol, United Kingdom</p>
                 </div>
               </div>
 

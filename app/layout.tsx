@@ -9,6 +9,7 @@ import AgeVerification from "@/components/age-verification"
 import BotpressChat from "@/components/BotpressChat"
 import { Playfair_Display } from 'next/font/google'
 import { Toaster } from "sonner"
+import ClarityScript from "../components/ClarityScript"
 
 const canela = Playfair_Display({
   subsets: ['latin'],
@@ -39,6 +40,7 @@ export default function RootLayout({
               <Footer />
               <BotpressChat />
               <Toaster />
+              <ClarityScript />
             </div>
           </CartProvider>
         </ThemeProvider>
