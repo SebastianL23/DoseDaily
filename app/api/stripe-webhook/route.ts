@@ -201,9 +201,9 @@ export async function POST(request: Request) {
               company: "Dose Daily",
               street1: "36 Woodacre",
               city: "Bristol",
-              state: "avon",
-              zip: "BS207BT",
-              country: "United Kingdom",
+              state: "Avon",
+              zip: "BS20 7BT",
+              country: "GB", // Use ISO country code
               phone: "077990266704",
               email: "your@email.com",
               is_residential: false
@@ -217,16 +217,43 @@ export async function POST(request: Request) {
               city: originalOrder.shipping_address.city,
               state: originalOrder.shipping_address.state || "",
               zip: originalOrder.shipping_address.postal_code,
-              country: originalOrder.shipping_address.country,
+              country: originalOrder.shipping_address.country === "United Kingdom" ? "GB" : originalOrder.shipping_address.country,
               phone: originalOrder.shipping_address.phone || "",
               email: originalOrder.customer_email || "",
               is_residential: true
             };
 
+            // Format UK postal codes properly (add space if missing)
+            if (toAddress.country === "GB" && toAddress.zip) {
+              // UK postal codes should have a space in the middle (e.g., "BS207BT" -> "BS20 7BT")
+              const zip = toAddress.zip.replace(/\s+/g, ''); // Remove existing spaces
+              if (zip.length >= 5) {
+                toAddress.zip = zip.slice(0, -3) + ' ' + zip.slice(-3);
+              }
+            }
+
+            // Validate required address fields
+            const requiredFields = ['name', 'street1', 'city', 'zip', 'country'];
+            const missingFromFields = requiredFields.filter(field => !fromAddress[field as keyof typeof fromAddress] || fromAddress[field as keyof typeof fromAddress] === '');
+            const missingToFields = requiredFields.filter(field => !toAddress[field as keyof typeof toAddress] || toAddress[field as keyof typeof toAddress] === '');
+
+            if (missingFromFields.length > 0) {
+              throw new Error(`Missing required fields in from address: ${missingFromFields.join(', ')}`);
+            }
+
+            if (missingToFields.length > 0) {
+              throw new Error(`Missing required fields in to address: ${missingToFields.join(', ')}`);
+            }
+
+            console.log('Address validation passed. All required fields present.');
+
             console.log('Creating addresses in Shippo:', {
               fromAddress,
               toAddress
             });
+
+            console.log('Original order shipping address:', originalOrder.shipping_address);
+            console.log('Customer email:', originalOrder.customer_email);
 
             // Create addresses in Shippo
             const fromAddressResponse = await fetch('https://api.goshippo.com/addresses/', {
@@ -349,6 +376,13 @@ export async function POST(request: Request) {
 
             console.log('Creating shipment:', shipment);
 
+            console.log('Shipment address details:', {
+              address_from: fromAddressData.object_id,
+              address_to: toAddressData.object_id,
+              fromAddress: fromAddress,
+              toAddress: toAddress
+            });
+
             const shipmentResponse = await fetch('https://api.goshippo.com/shipments/', {
               method: 'POST',
               headers: {
@@ -399,6 +433,11 @@ export async function POST(request: Request) {
 
             console.log('Selected rate:', hermesRate);
 
+            // Validate the rate object_id
+            if (!hermesRate.object_id) {
+              throw new Error('Selected rate does not have a valid object_id');
+            }
+
             // Create transaction
             const transaction = {
               rate: hermesRate.object_id,
@@ -406,7 +445,12 @@ export async function POST(request: Request) {
               async: false
             };
 
-            console.log('Creating transaction:', transaction);
+            console.log('Creating transaction with rate:', {
+              rate_object_id: hermesRate.object_id,
+              rate_provider: hermesRate.provider,
+              rate_service: hermesRate.servicelevel?.name,
+              transaction_data: transaction
+            });
 
             const transactionResponse = await fetch('https://api.goshippo.com/transactions/', {
               method: 'POST',
