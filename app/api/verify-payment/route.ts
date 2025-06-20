@@ -62,6 +62,8 @@ export async function POST(request: Request) {
         amount_total: data.amount_total,
         currency: data.currency,
         customer_email: data.customer_details?.email,
+        customer_details: data.customer_details,
+        payment_intent: data.payment_intent,
         metadata: data.metadata,
         sessionId: data.id
       })

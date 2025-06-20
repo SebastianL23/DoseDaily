@@ -300,7 +300,8 @@ export async function POST(request: Request) {
                   order_status: "PAID",
                   order_number: orderId,
                   weight: "1",
-                  weight_unit: "kg"
+                  weight_unit: "kg",
+                  notes: "Disclaimer: All producrs on this website are available for purcahse by individuals agesd 18 and over. Porducts sold by DoseDaily LTD are not intended to diagnose, treat, cure, or prevent any disease. By purchasing from DoseDaily LTD, you agree to our terms and conditions."
                 };
 
                 console.log('Creating Shippo order:', shippoOrder);

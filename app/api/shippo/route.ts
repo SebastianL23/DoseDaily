@@ -24,11 +24,16 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
+    console.log('Shippo API received request body:', JSON.stringify(body, null, 2));
+    
     const { shippingAddress, items } = body;
 
     if (!shippingAddress || !items) {
       throw new Error('Missing required shipping address or items data');
     }
+
+    console.log('Processing shipping address:', JSON.stringify(shippingAddress, null, 2));
+    console.log('Processing items:', JSON.stringify(items, null, 2));
 
     // Create from address (your business address)
     const fromAddress = {

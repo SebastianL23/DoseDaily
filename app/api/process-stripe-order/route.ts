@@ -26,53 +26,43 @@ export async function POST(request: Request) {
 
     // Create shipping label using Shippo (reusing existing logic)
     try {
-      const shippoResponse = await fetch('/api/shippo', {
+      // Get the base URL for server-to-server API calls
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+      const shippoUrl = `${baseUrl}/api/shippo`
+      
+      console.log('Making request to Shippo API at:', shippoUrl)
+      console.log('Payment data received:', JSON.stringify(body.paymentData, null, 2))
+      console.log('Shipping address received:', JSON.stringify(body.shippingAddress, null, 2))
+      
+      const shippoResponse = await fetch(shippoUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          orderData: {
-            to_address: {
-              line1: body.shippingAddress.line1,
-              line2: body.shippingAddress.line2,
-              city: body.shippingAddress.city,
-              postal_code: body.shippingAddress.postal_code,
-              country: body.shippingAddress.country,
-              email: body.shippingAddress.email
-            },
-            line_items: [{
-              title: 'Cart Purchase',
-              sku: 'CBD-ORDER',
-              quantity: 1,
-              total_price: (body.paymentData.amount_total / 100).toFixed(2), // Convert from pence
-              currency: body.paymentData.currency.toUpperCase(),
-              weight: "1",
-              weight_unit: "kg"
-            }],
-            placed_at: new Date().toISOString(),
-            order_number: orderId,
-            order_status: "PAID",
-            shipping_cost: "0.00",
-            shipping_cost_currency: "GBP",
-            shipping_method: "Hermes UK ParcelShop Drop-Off",
-            subtotal_price: (body.paymentData.amount_total / 100).toFixed(2),
-            total_price: (body.paymentData.amount_total / 100).toFixed(2),
-            total_tax: "0.00",
-            currency: "GBP",
+          shippingAddress: {
+            name: body.paymentData.customer_details?.name || 'Customer',
+            line1: body.shippingAddress.line1,
+            line2: body.shippingAddress.line2,
+            city: body.shippingAddress.city,
+            state: body.shippingAddress.state || '',
+            postal_code: body.shippingAddress.postal_code,
+            country: body.shippingAddress.country,
+            phone: body.paymentData.customer_details?.phone || '',
+            email: body.paymentData.customer_email || body.shippingAddress.email
+          },
+          items: [{
+            name: body.paymentData.metadata?.product_name || 'Cart Purchase',
+            price: body.paymentData.amount_total / 100,
+            quantity: 1,
             weight: "1",
             weight_unit: "kg"
-          },
-          shippingAddress: body.shippingAddress,
-          items: [{
-            name: 'Cart Purchase',
-            price: body.paymentData.amount_total / 100,
-            quantity: 1
           }]
         })
       })
 
       const shippoData = await shippoResponse.json()
+      console.log('Shippo API response:', shippoData)
       
       if (!shippoResponse.ok) {
         console.error('Shippo API error:', shippoData)
@@ -84,6 +74,10 @@ export async function POST(request: Request) {
         success: true,
         orderId: orderId,
         sessionId: body.sessionId,
+        payment_id: body.paymentData.payment_intent,
+        customer_email: body.paymentData.customer_email,
+        tracking_number: shippoData.transaction?.tracking_number || null,
+        tracking_url: shippoData.transaction?.tracking_url || null,
         shippingData: shippoData,
         message: 'Order processed successfully'
       })
@@ -96,6 +90,10 @@ export async function POST(request: Request) {
         success: true,
         orderId: orderId,
         sessionId: body.sessionId,
+        payment_id: body.paymentData.payment_intent,
+        customer_email: body.paymentData.customer_email,
+        tracking_number: null,
+        tracking_url: null,
         message: 'Order processed successfully (shipping label creation failed)'
       })
     }

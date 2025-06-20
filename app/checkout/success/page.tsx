@@ -12,7 +12,7 @@ export default function CheckoutSuccessPage() {
   const sessionId = searchParams.get('session_id')
   const [isProcessing, setIsProcessing] = useState(true)
   const [orderProcessed, setOrderProcessed] = useState(false)
-  const { clearCart, shippingAddress } = useCart()
+  const { clearCart } = useCart()
 
   useEffect(() => {
     const processOrder = async () => {
@@ -41,6 +41,22 @@ export default function CheckoutSuccessPage() {
         }
 
         if (verifyData.payment_status === 'paid') {
+          // Extract shipping address from Stripe customer details
+          const customerDetails = verifyData.customer_details
+          const shippingAddress = {
+            name: customerDetails?.name || 'Customer',
+            line1: customerDetails?.address?.line1 || '',
+            line2: customerDetails?.address?.line2 || '',
+            city: customerDetails?.address?.city || '',
+            state: customerDetails?.address?.state || '',
+            postal_code: customerDetails?.address?.postal_code || '',
+            country: customerDetails?.address?.country || '',
+            email: customerDetails?.email || '',
+            phone: customerDetails?.phone || ''
+          }
+
+          console.log('Extracted shipping address from Stripe:', shippingAddress)
+
           // Process the order (create shipping label, etc.)
           const orderResponse = await fetch('/api/process-stripe-order', {
             method: 'POST',
@@ -78,7 +94,7 @@ export default function CheckoutSuccessPage() {
     }
 
     processOrder()
-  }, [sessionId, clearCart, shippingAddress])
+  }, [sessionId, clearCart])
 
   if (isProcessing) {
     return (
