@@ -4,14 +4,14 @@ import type React from "react"
 
 import Image from "next/image"
 import Link from "next/link"
-import { Eye, Heart, ShoppingBag, Star, ChevronRight } from "lucide-react"
+import { EyeIcon, HeartIcon, ShoppingBagIcon, StarIcon, ChevronRightIcon } from "@heroicons/react/24/outline"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "./cart-provider"
 
 // Add type assertions
 const NextLink = Link as any
-const NextChevronRight = ChevronRight as any
+const NextChevronRight = ChevronRightIcon as any
 
 interface ProductCardProps {
   product: {
@@ -65,8 +65,8 @@ export default function ProductCard({ product, viewMode = "grid" }: ProductCardP
               <Badge className="absolute top-2 right-2 bg-red-500 hover:bg-red-600">-{product.discount}%</Badge>
             )}
 
-            {/* Out of Stock Overlay */}
-            {product.id > 9 && (
+            {/* Out of Stock Overlay for other products if needed */}
+            {product.id > 9 && product.id !== 10 && product.id !== 11 && product.id !== 12 && (
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                 <Badge className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-lg">Out of Stock</Badge>
               </div>
@@ -90,14 +90,14 @@ export default function ProductCard({ product, viewMode = "grid" }: ProductCardP
                   className="text-gray-400 hover:text-gray-500"
                   onClick={handleAddToCart}
                 >
-                  <Heart className="h-5 w-5" />
+                  <HeartIcon className="h-5 w-5" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="text-gray-400 hover:text-gray-500"
                 >
-                  <Eye className="h-5 w-5" />
+                  <EyeIcon className="h-5 w-5" />
                 </Button>
               </div>
             </div>
@@ -105,7 +105,7 @@ export default function ProductCard({ product, viewMode = "grid" }: ProductCardP
             <div className="mt-2 flex items-center">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
-                  <Star
+                  <StarIcon
                     key={i}
                     className={`h-4 w-4 ${i < Math.floor(product.rating) ? "text-amber-400 fill-amber-400" : "text-gray-300"}`}
                   />
@@ -147,7 +147,7 @@ export default function ProductCard({ product, viewMode = "grid" }: ProductCardP
                 className="bg-moss-500 hover:bg-moss-600 w-auto"
                 onClick={handleAddToCart}
               >
-                <ShoppingBag className="h-4 w-4 mr-2" />
+                <ShoppingBagIcon className="h-4 w-4 mr-2" />
                 Add to Cart
               </Button>
               <Link href={`/products/${product.id}`}>
@@ -184,8 +184,8 @@ export default function ProductCard({ product, viewMode = "grid" }: ProductCardP
             <Badge className="absolute top-2 right-2 bg-red-500 hover:bg-red-600">-{product.discount}%</Badge>
           )}
 
-          {/* Out of Stock Overlay */}
-          {product.id > 9 && (
+          {/* Out of Stock Overlay for other products if needed */}
+          {product.id > 9 && product.id !== 10 && product.id !== 11 && product.id !== 12 && (
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
               <Badge className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-lg">Out of Stock</Badge>
             </div>
@@ -199,14 +199,14 @@ export default function ProductCard({ product, viewMode = "grid" }: ProductCardP
               className="opacity-0 group-hover:opacity-100 bg-white hover:bg-white/90 text-gray-900"
               onClick={handleAddToCart}
             >
-              <ShoppingBag className="h-5 w-5" />
+              <ShoppingBagIcon className="h-5 w-5" />
             </Button>
             <Button
               variant="ghost"
               size="icon"
               className="opacity-0 group-hover:opacity-100 bg-white hover:bg-white/90 text-gray-900"
             >
-              <Eye className="h-5 w-5" />
+              <EyeIcon className="h-5 w-5" />
             </Button>
           </div>
         </div>
@@ -220,7 +220,7 @@ export default function ProductCard({ product, viewMode = "grid" }: ProductCardP
           <div className="mt-2 flex items-center">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
-                <Star
+                <StarIcon
                   key={i}
                   className={`h-4 w-4 ${i < Math.floor(product.rating) ? "text-amber-400 fill-amber-400" : "text-gray-300"}`}
                 />
@@ -262,7 +262,7 @@ export default function ProductCard({ product, viewMode = "grid" }: ProductCardP
               className="bg-moss-500 hover:bg-moss-600 w-auto"
               onClick={handleAddToCart}
             >
-              <ShoppingBag className="h-4 w-4 mr-2" />
+              <ShoppingBagIcon className="h-4 w-4 mr-2" />
               Add to Cart
             </Button>
           </div>

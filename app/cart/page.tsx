@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { useCart } from "@/components/cart-provider"
 import { toast } from "sonner"
 import { CoinbaseCheckout } from "@/components/coinbase-checkout"
+import { StripeCheckout } from "@/components/stripe-checkout"
 import React from "react"
 
 // Add type assertions for components
@@ -388,28 +389,6 @@ export default function CartPage() {
                     // Call Shippo API to create shipping label
                     const shippoData = await createOrder();
 
-                    // Call MailerLite API to add subscriber and send tracking email
-                    const mailerLiteResponse = await fetch('/api/mailerlite', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({
-                        email: shippingAddress.email,
-                        name: shippingAddress.line1.split(' ')[0], // Use first name from address
-                        tracking_number: shippoData.tracking_number,
-                        tracking_url: shippoData.tracking_url,
-                        order_id: shippoData.order_id
-                      }),
-                    });
-
-                    const mailerLiteData = await mailerLiteResponse.json();
-
-                    if (!mailerLiteResponse.ok) {
-                      console.error('MailerLite error:', mailerLiteData);
-                      // Don't throw error here as the order was successful
-                    }
-
                     // Show success message
                     const shippingCost = shippoData.selectedRate?.amount || '0';
                     toast.success(`Payment successful! Shipping label created with ${shippoData.selectedRate?.provider} (${shippingCost} GBP)`);
@@ -425,6 +404,47 @@ export default function CartPage() {
                   toast.error(error.message || 'Payment failed');
                 }}
               />
+              
+              <div className="mt-3">
+                <StripeCheckout 
+                  product={{
+                    name: 'Cart Purchase',
+                    price: total,
+                    description: description
+                  }}
+                  onSuccess={async () => {
+                    try {
+                      // Validate shipping address is in UK
+                      if (shippingAddress.country !== "United Kingdom") {
+                        toast.error("We currently only ship to UK addresses");
+                        return;
+                      }
+
+                      // Validate required fields
+                      if (!shippingAddress.line1 || !shippingAddress.city || !shippingAddress.postal_code || !shippingAddress.email) {
+                        toast.error("Please fill in all required shipping address fields");
+                        return;
+                      }
+
+                      // Call Shippo API to create shipping label
+                      const shippoData = await createOrder();
+
+                      // Show success message
+                      const shippingCost = shippoData.selectedRate?.amount || '0';
+                      toast.success(`Payment successful! Shipping label created with ${shippoData.selectedRate?.provider} (${shippingCost} GBP)`);
+                      
+                      // Clear the cart after successful purchase
+                      clearCart();
+                    } catch (error) {
+                      console.error('Error processing order:', error);
+                      toast.error('Payment successful but failed to process order');
+                    }
+                  }}
+                  onError={(error) => {
+                    toast.error(error.message || 'Payment failed');
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

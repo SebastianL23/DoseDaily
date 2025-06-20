@@ -136,10 +136,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       name: "Raspberry Muffin",
       price: 7.99,
       images: [
-        "/images/raspberry.webp",
-        "/images/raspberry.webp",
-        "/images/raspberry.webp",
-        "/images/raspberry.webp",
+        "/images/raspberry.webp"
       ],
       rating: 4.8,
       reviewCount: 124,
@@ -155,7 +152,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       ],
       details: "Grown indoors under optimal conditions. Hand-trimmed and cured to perfection.",
       usage: "For optimal experience, use with a quality grinder. Can be consumed in a variety of ways including smoking, vaporizing, or used to create edibles.",
-      cannabinoidTypes: ["cbd", "thca"],
+      cannabinoidTypes: ["cbd", "hhcp"],
       lab_results: "https://example.com/lab-results",
       strain_type: "Indica",
       terpenes: "Myrcene, Caryophyllene, Limonene",
@@ -166,7 +163,6 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       name: "Blue Dream Amnesia Vape Liquid",
       price: 24.99,
       images: [
-        "/images/amnesia.webp",
         "/images/amnesia.webp"
       ],
       rating: 4.9,
@@ -183,7 +179,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       ],
       details: "High-quality vape liquid made with premium ingredients.",
       usage: "Use with any standard vape pen or device.",
-      cannabinoidTypes: ["cbd", "thca"],
+      cannabinoidTypes: ["cbd", "hhcp"],
       lab_results: "https://example.com/lab-results",
       strain_type: "Hybrid",
       terpenes: "Myrcene, Pinene, Caryophyllene",
@@ -211,7 +207,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       ],
       details: "Hand-pressed using traditional methods, aged to perfection.",
       usage: "Can be smoked, vaporized, or used in edibles.",
-      cannabinoidTypes: ["cbd", "thca"],
+      cannabinoidTypes: ["cbd", "thcp"],
       lab_results: "https://example.com/lab-results",
       strain_type: "Indica",
       terpenes: "Myrcene, Caryophyllene, Pinene",
@@ -239,7 +235,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       ],
       details: "Extracted using heat and pressure, no solvents used. Preserves the full spectrum of cannabinoids and terpenes.",
       usage: "Best consumed at low temperatures for maximum flavor and effect. Can be used with a dab rig or vaporizer.",
-      cannabinoidTypes: ["cbd", "thca"],
+      cannabinoidTypes: ["cbd", "hhcp"],
       lab_results: "https://example.com/lab-results",
       strain_type: "Hybrid",
       terpenes: "Myrcene, Limonene, Caryophyllene",
@@ -267,7 +263,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       ],
       details: "Grown with organic methods, hand-trimmed for quality.",
       usage: "Best consumed during daytime hours.",
-      cannabinoidTypes: ["cbd", "thca"],
+      cannabinoidTypes: ["cbd", "hhcp"],
       lab_results: "https://example.com/lab-results",
       strain_type: "Sativa",
       terpenes: "Limonene, Pinene, Terpinolene",
@@ -278,8 +274,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       name: "Gelato Vape Liquid",
       price: 39.99,
       images: [
-        "/images/gelato1.webp",
-        "/images/gelato2.webp"
+        "/images/gelato1.webp"
       ],
       rating: 4.7,
       reviewCount: 156,
@@ -295,7 +290,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       ],
       details: "Made with high-quality CBD distillate and natural terpenes. Free from nicotine and THC. Suitable for all refillable vape pens and e-cigarettes.",
       usage: "Fill your refillable vape pen or e-cigarette tank with Gelato Vape Liquid. Start with a few puffs and increase as desired. Not for use in sub-ohm devices.",
-      cannabinoidTypes: ["cbd", "thca"],
+      cannabinoidTypes: ["cbd", "hhcp"],
       lab_results: "https://example.com/lab-results",
       strain_type: "Hybrid",
       terpenes: "Limonene, Caryophyllene, Linalool",
@@ -306,7 +301,6 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       name: "Bubble Hash",
       price: 7.99,
       images: [
-        "/images/hash3.jpg",
         "/images/hash3.jpg"
       ],
       rating: 4.6,
@@ -323,7 +317,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       ],
       details: "Made using ice water and fine mesh screens.",
       usage: "Can be smoked, vaporized, or used in edibles.",
-      cannabinoidTypes: ["cbd", "thca"],
+      cannabinoidTypes: ["cbd", "thcp"],
       lab_results: "https://example.com/lab-results",
       strain_type: "Hybrid",
       terpenes: "Myrcene, Pinene, Caryophyllene",
@@ -351,7 +345,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       ],
       details: "Extracted using heat and pressure, no solvents used. Preserves the full spectrum of cannabinoids and terpenes.",
       usage: "Best consumed at low temperatures for maximum flavor and effect. Can be used with a dab rig or vaporizer.",
-      cannabinoidTypes: ["cbd", "thca"],
+      cannabinoidTypes: ["cbd", "hhcp"],
       lab_results: "https://example.com/lab-results",
       strain_type: "Hybrid",
       terpenes: "Limonene, Caryophyllene, Linalool",
@@ -379,12 +373,93 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       ],
       details: "Grown indoors with organic methods.",
       usage: "Can be smoked, vaporized, or used in edibles.",
-      cannabinoidTypes: ["cbd", "thca"],
+      cannabinoidTypes: ["cbd", "hhcp"],
       lab_results: "https://example.com/lab-results",
       strain_type: "Indica",
       terpenes: "Myrcene, Limonene, Caryophyllene",
       effects: "Relaxing, Happy, Euphoric",
-    }
+    },
+    {
+      id: 10,
+      name: "Amnesia Haze",
+      price: 8.99,
+      images: [
+        "/images/ammi.jpg"
+      ],
+      rating: 4.6,
+      reviewCount: 18,
+      category: "Flower",
+      isNew: true,
+      isBestSeller: false,
+      description: "Amnesia Haze is a legendary sativa strain known for its uplifting and energetic effects, with a citrusy aroma and dense, resinous buds.",
+      benefits: [
+        "Uplifts mood and energy",
+        "Citrus and earthy aroma",
+        "Great for daytime use",
+        "Rich in cannabinoids and terpenes"
+      ],
+      details: "Cultivated indoors for maximum potency and flavor. Hand-trimmed and slow-cured.",
+      usage: "Best enjoyed during the day for a boost in creativity and focus. Can be smoked, vaporized, or used in edibles.",
+      cannabinoidTypes: ["cbd", "hhcp"],
+      lab_results: "https://example.com/lab-results",
+      strain_type: "Sativa",
+      terpenes: "Limonene, Terpinolene, Myrcene",
+      effects: "Energetic, Uplifting, Creative",
+    },
+    {
+      id: 11,
+      name: "Gelato",
+      price: 8.49,
+      images: [
+        "/images/bud7.jpg"
+      ],
+      rating: 4.8,
+      reviewCount: 27,
+      category: "Flower",
+      isNew: true,
+      isBestSeller: false,
+      description: "Gelato is a popular hybrid strain known for its sweet, dessert-like aroma and balanced effects. Perfect for relaxation and creative activities.",
+      benefits: [
+        "Sweet and creamy flavor",
+        "Balanced hybrid effects",
+        "Great for relaxation and creativity",
+        "Rich in cannabinoids and terpenes"
+      ],
+      details: "Expertly cultivated indoors for premium quality. Hand-trimmed and slow-cured for optimal flavor.",
+      usage: "Enjoy during the afternoon or evening for a relaxing and uplifting experience. Can be smoked, vaporized, or used in edibles.",
+      cannabinoidTypes: ["cbd", "hhcp"],
+      lab_results: "https://example.com/lab-results",
+      strain_type: "Hybrid",
+      terpenes: "Limonene, Caryophyllene, Humulene",
+      effects: "Relaxing, Uplifting, Creative",
+    },
+    {
+      id: 12,
+      name: "Lemonchello",
+      price: 6.99,
+      images: [
+        "/images/lemonchello.jpg"
+      ],
+      rating: 4.7,
+      reviewCount: 45,
+      category: "Flower",
+      isNew: true,
+      isBestSeller: false,
+      description: "Lemonchello is a refreshing hybrid strain with a bright citrus aroma and uplifting effects. Perfect for daytime use and creative activities.",
+      benefits: [
+        "Bright citrus flavor profile",
+        "Uplifting and energizing effects",
+        "Great for daytime use",
+        "Rich in terpenes and cannabinoids"
+      ],
+      details: "Cultivated with care using organic methods. Hand-trimmed and slow-cured for maximum flavor and potency.",
+      usage: "Best enjoyed during the day for a boost in energy and creativity. Can be smoked, vaporized, or used in edibles.",
+      cannabinoidTypes: ["cbd", "hhcp"],
+      lab_results: "https://example.com/lab-results",
+      strain_type: "Hybrid",
+      terpenes: "Limonene, Pinene, Myrcene",
+      effects: "Uplifting, Energetic, Creative",
+    },
   ]
 
   // Find the product based on the ID
@@ -404,10 +479,10 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   }
 
   const calculatePrice = (qty: number) => {
-    // Base price calculation with THCA premium
+    // Base price calculation with HHCP premium
     const basePrice = product.price * qty
-    const thcaMultiplier = selectedCannabinoidType === "thca" ? 1.5 : 1
-    const adjustedBasePrice = basePrice * thcaMultiplier
+    const hhcpMultiplier = selectedCannabinoidType === "hhcp" ? 1.5 : 1
+    const adjustedBasePrice = basePrice * hhcpMultiplier
     
     let discount = 0
     let discountPercentage = 0
