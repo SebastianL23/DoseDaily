@@ -8,6 +8,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    // Force all pages to be dynamic (no static generation)
+    staticGenerationAsyncStorage: false,
+  },
   images: {
     domains: ['localhost'],
     remotePatterns: [
