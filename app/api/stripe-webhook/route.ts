@@ -47,6 +47,11 @@ function verifyWebhookSignature(
 
 export async function POST(request: Request) {
   try {
+    console.log('=== WEBHOOK RECEIVED ===');
+    console.log('Request URL:', request.url);
+    console.log('Request method:', request.method);
+    console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+    
     // Get the webhook signature from headers
     const signature = request.headers.get('stripe-signature')
     const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -54,8 +59,10 @@ export async function POST(request: Request) {
     console.log('Stripe Webhook Environment:', {
       nodeEnv: process.env.NODE_ENV,
       isDevelopment,
-      hasSignature: !!signature
+      hasSignature: !!signature,
+      signatureLength: signature?.length
     })
+
 
     if (!signature && !isDevelopment) {
       console.error('No Stripe webhook signature found')
@@ -70,7 +77,9 @@ export async function POST(request: Request) {
     console.log('Environment variable check:', {
       hasSecret: !!webhookSecret,
       secretLength: webhookSecret?.length,
-      envKeys: Object.keys(process.env).filter(key => key.includes('STRIPE'))
+      secretPrefix: webhookSecret?.substring(0, 10) + '...',
+      envKeys: Object.keys(process.env).filter(key => key.includes('STRIPE')),
+      allEnvKeys: Object.keys(process.env).filter(key => key.includes('STRIPE') || key.includes('NODE_ENV'))
     })
 
     if (!webhookSecret && !isDevelopment) {
@@ -307,7 +316,7 @@ export async function POST(request: Request) {
               order_number: orderId,
               weight: "1",
               weight_unit: "kg",
-              notes: "Disclaimer: All producrs on this website are available for purcahse by individuals agesd 18 and over. Porducts sold by DoseDaily LTD are not intended to diagnose, treat, cure, or prevent any disease. By purchasing from DoseDaily LTD, you agree to our terms and conditions."
+              notes: "CBD products for adults 18+. Not intended to diagnose, treat, cure, or prevent disease."
             };
 
             console.log('Creating Shippo order:', shippoOrder);
@@ -554,7 +563,8 @@ export async function POST(request: Request) {
             paymentId: session.payment_intent,
             items: originalOrder.items,
             customerEmail: originalOrder.customer_email,
-            shippingAddress: originalOrder.shipping_address
+            shippingAddress: originalOrder.shipping_address,
+            shippoStatus: 'processed' // Add this to indicate Shippo was attempted
           });
 
         } catch (error) {
