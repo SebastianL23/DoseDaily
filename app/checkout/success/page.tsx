@@ -3,18 +3,25 @@
 export const dynamic = "force-dynamic";
 
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { useCart } from '@/components/cart-provider'
 import Link from 'next/link'
 
 export default function CheckoutSuccessPage() {
-  const searchParams = useSearchParams()
-  const sessionId = searchParams.get('session_id')
+  const router = useRouter()
+  const [sessionId, setSessionId] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(true)
   const [orderProcessed, setOrderProcessed] = useState(false)
   const { clearCart } = useCart()
+
+  useEffect(() => {
+    // Get session_id from URL without useSearchParams
+    const urlParams = new URLSearchParams(window.location.search)
+    const sessionIdFromUrl = urlParams.get('session_id')
+    setSessionId(sessionIdFromUrl)
+  }, [])
 
   useEffect(() => {
     const processOrder = async () => {
@@ -95,7 +102,9 @@ export default function CheckoutSuccessPage() {
       }
     }
 
-    processOrder()
+    if (sessionId) {
+      processOrder()
+    }
   }, [sessionId, clearCart])
 
   if (isProcessing) {
