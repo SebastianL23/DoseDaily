@@ -184,6 +184,17 @@ export async function POST(request: Request) {
               appUrl: process.env.NEXT_PUBLIC_APP_URL
             });
 
+            // Check if Shippo API token is available
+            if (!process.env.SHIPPO_API_TOKEN) {
+              throw new Error('SHIPPO_API_TOKEN environment variable is not set');
+            }
+
+            console.log('Shippo API Token check:', {
+              hasToken: !!process.env.SHIPPO_API_TOKEN,
+              tokenLength: process.env.SHIPPO_API_TOKEN?.length,
+              tokenPrefix: process.env.SHIPPO_API_TOKEN?.substring(0, 10) + '...'
+            });
+
             // Create from address (your business address)
             const fromAddress = {
               name: "Dose Daily",
@@ -225,6 +236,7 @@ export async function POST(request: Request) {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify(fromAddress),
+              signal: AbortSignal.timeout(30000), // 30 second timeout
             });
 
             const fromAddressData = await fromAddressResponse.json();
@@ -241,6 +253,7 @@ export async function POST(request: Request) {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify(toAddress),
+              signal: AbortSignal.timeout(30000), // 30 second timeout
             });
 
             const toAddressData = await toAddressResponse.json();
@@ -278,7 +291,8 @@ export async function POST(request: Request) {
                 'Authorization': `ShippoToken ${process.env.SHIPPO_API_TOKEN}`,
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(shippoOrder)
+              body: JSON.stringify(shippoOrder),
+              signal: AbortSignal.timeout(30000), // 30 second timeout
             });
 
             const orderData = await orderResponse.json();
@@ -293,7 +307,8 @@ export async function POST(request: Request) {
               method: 'GET',
               headers: {
                 'Authorization': `ShippoToken ${process.env.SHIPPO_API_TOKEN}`,
-              }
+              },
+              signal: AbortSignal.timeout(30000), // 30 second timeout
             });
 
             const packingslipData = await packingslipResponse.json();
@@ -341,6 +356,7 @@ export async function POST(request: Request) {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify(shipment),
+              signal: AbortSignal.timeout(30000), // 30 second timeout
             });
 
             const shipmentData = await shipmentResponse.json();
@@ -350,8 +366,17 @@ export async function POST(request: Request) {
               throw new Error(`Failed to create shipment: ${JSON.stringify(shipmentData)}`);
             }
 
+            // Log all available rates for debugging
+            console.log('Available rates:', shipmentData.rates?.map((rate: any) => ({
+              provider: rate.provider,
+              servicelevel: rate.servicelevel?.name,
+              token: rate.servicelevel?.token,
+              rate: rate.rate,
+              object_id: rate.object_id
+            })));
+
             // Find the Hermes rate
-            const hermesRate = shipmentData.rates.find((rate: any) => 
+            let hermesRate = shipmentData.rates.find((rate: any) => 
               rate.provider === "Hermes UK" && 
               rate.servicelevel.token === "hermes_uk_parcelshop_dropoff"
             ) || shipmentData.rates.find((rate: any) => 
@@ -359,7 +384,17 @@ export async function POST(request: Request) {
             );
 
             if (!hermesRate) {
-              throw new Error('No Hermes rate found for the shipment');
+              console.error('No Hermes rate found. Available providers:', 
+                shipmentData.rates?.map((rate: any) => rate.provider));
+              
+              // Try to use the first available rate instead
+              const firstRate = shipmentData.rates?.[0];
+              if (firstRate) {
+                console.log('Using first available rate instead:', firstRate);
+                hermesRate = firstRate;
+              } else {
+                throw new Error('No shipping rates found for the shipment');
+              }
             }
 
             console.log('Selected rate:', hermesRate);
@@ -380,6 +415,7 @@ export async function POST(request: Request) {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify(transaction),
+              signal: AbortSignal.timeout(30000), // 30 second timeout
             });
 
             const transactionData = await transactionResponse.json();
@@ -441,6 +477,9 @@ export async function POST(request: Request) {
                 trackingInfo
               });
             }
+
+            console.log('Shippo integration completed successfully');
+
           } catch (error: any) {
             console.error('Error creating shipping label:', {
               error,
@@ -449,7 +488,18 @@ export async function POST(request: Request) {
               orderId,
               paidOrderId: paidOrder.id
             });
-            // Don't throw error here, just log it
+            
+            // Log additional details for debugging
+            if (error?.response) {
+              console.error('Error response details:', {
+                status: error.response.status,
+                statusText: error.response.statusText,
+                data: error.response.data
+              });
+            }
+            
+            // Don't throw error here, just log it - but we should still return success
+            // since the payment was processed successfully
           }
 
           return NextResponse.json({
