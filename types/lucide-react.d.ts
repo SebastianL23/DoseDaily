@@ -6,5 +6,7 @@ declare module 'lucide-react' {
     strokeWidth?: string | number
   }
   export const ChevronDown: FC<IconProps>
+  export const ShoppingBag: FC<IconProps>
+  export const X: FC<IconProps>
   // Add other icons as needed
 } 

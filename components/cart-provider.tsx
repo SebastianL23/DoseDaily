@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { ShoppingBag, X, icons } from "lucide-react"
+import { ShoppingBag, X } from "lucide-react"
 
 // Add type assertions
 const NextButton = Button as any
@@ -24,15 +24,6 @@ type Discount = {
   code: string
 } | null
 
-interface ShippingAddress {
-  line1: string;
-  line2?: string;
-  city: string;
-  postal_code: string;
-  country: string;
-  email: string;
-}
-
 type CartContextType = {
   cart: CartItem[]
   addToCart: (product: CartItem) => void
@@ -44,8 +35,6 @@ type CartContextType = {
   discount: Discount
   setDiscount: (discount: Discount) => void
   applyDiscount: (code: string, email: string) => Promise<{ success: boolean; message: string }>
-  shippingAddress: ShippingAddress
-  setShippingAddress: (address: ShippingAddress) => void
   discountEmail: string
   setDiscountEmail: (email: string) => void
 }
@@ -65,14 +54,6 @@ export default function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const [discount, setDiscount] = useState<Discount>(null)
-  const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
-    line1: '',
-    line2: '',
-    city: '',
-    postal_code: '',
-    country: 'United Kingdom', // Default to UK
-    email: ''  // Initialize email field
-  })
   const [discountEmail, setDiscountEmail] = useState("")
   const [isInitialized, setIsInitialized] = useState(false)
 
@@ -231,8 +212,6 @@ export default function CartProvider({ children }: { children: ReactNode }) {
       discount,
       setDiscount,
       applyDiscount,
-      shippingAddress,
-      setShippingAddress,
       discountEmail,
       setDiscountEmail
     }}>
@@ -262,7 +241,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                     <div className="mt-8">
                       {cart.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-8">
-                          <icons.ShoppingBag className="h-12 w-12 text-gray-400 mb-4" />
+                          <ShoppingBag className="h-12 w-12 text-gray-400 mb-4" />
                           <p className="text-sm text-gray-600">Your cart is empty</p>
                         </div>
                       ) : (
@@ -322,89 +301,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
                     </div>
                   </div>
 
-                  <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Shipping Address</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <label htmlFor="line1" className="block text-sm font-medium text-gray-700">
-                          Address Line 1 *
-                        </label>
-                        <input
-                          type="text"
-                          id="line1"
-                          value={shippingAddress.line1}
-                          onChange={(e) => setShippingAddress(prev => ({ ...prev, line1: e.target.value }))}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                          required
-                        />
-                      </div>
 
-                      <div>
-                        <label htmlFor="line2" className="block text-sm font-medium text-gray-700">
-                          Address Line 2
-                        </label>
-                        <input
-                          type="text"
-                          id="line2"
-                          value={shippingAddress.line2}
-                          onChange={(e) => setShippingAddress(prev => ({ ...prev, line2: e.target.value }))}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-                            City *
-                          </label>
-                          <input
-                            type="text"
-                            id="city"
-                            value={shippingAddress.city}
-                            onChange={(e) => setShippingAddress(prev => ({ ...prev, city: e.target.value }))}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                            required
-                          />
-                        </div>
-
-                        <div>
-                          <label htmlFor="postal_code" className="block text-sm font-medium text-gray-700">
-                            Postal Code *
-                          </label>
-                          <input
-                            type="text"
-                            id="postal_code"
-                            value={shippingAddress.postal_code}
-                            onChange={(e) => setShippingAddress(prev => ({ ...prev, postal_code: e.target.value }))}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                          Country *
-                        </label>
-                        <select
-                          id="country"
-                          value={shippingAddress.country}
-                          onChange={(e) => setShippingAddress(prev => ({ ...prev, country: e.target.value }))}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                          required
-                        >
-                          <option value="United Kingdom">United Kingdom</option>
-                          <option value="United States">United States</option>
-                          <option value="Canada">Canada</option>
-                          <option value="Australia">Australia</option>
-                          <option value="Germany">Germany</option>
-                          <option value="France">France</option>
-                          <option value="Spain">Spain</option>
-                          <option value="Italy">Italy</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
 
                   <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                     <div className="space-y-4">

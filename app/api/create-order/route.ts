@@ -29,27 +29,14 @@ export async function POST(request: Request) {
     console.log('Creating order with data:', body)
 
     // Validate required fields
-    if (!body.items || !body.total || !body.currency || !body.shipping_address) {
+    if (!body.items || !body.total || !body.currency) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required fields: items, total, and currency are required' },
         { status: 400 }
       )
     }
 
-    // Validate shipping address fields
-    const requiredShippingFields = ['line1', 'city', 'postal_code', 'country']
-    const missingShippingFields = requiredShippingFields.filter(
-      field => !body.shipping_address[field]
-    )
-
-    if (missingShippingFields.length > 0) {
-      return NextResponse.json(
-        { error: `Missing shipping fields: ${missingShippingFields.join(', ')}` },
-        { status: 400 }
-      )
-    }
-
-    // Create order in Supabase
+    // Create order in Supabase (shipping address will be added after PayPal payment)
     const { data, error } = await supabase
       .from('orders')
       .insert({
@@ -58,14 +45,7 @@ export async function POST(request: Request) {
         amount: body.total,
         currency: body.currency,
         items: body.items,
-        customer_email: body.customer_email,
-        shipping_address: {
-          line1: body.shipping_address.line1,
-          line2: body.shipping_address.line2 || null,
-          city: body.shipping_address.city,
-          postal_code: body.shipping_address.postal_code,
-          country: body.shipping_address.country
-        },
+        customer_email: body.customer_email || null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       })

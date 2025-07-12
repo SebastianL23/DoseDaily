@@ -6,8 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/components/cart-provider"
 import { toast } from "sonner"
-import { CoinbaseCheckout } from "@/components/coinbase-checkout"
-import { StripeCheckout } from "@/components/stripe-checkout"
+import { PayPalCheckout } from "@/components/paypal-checkout"
 import React from "react"
 
 // Add type assertions for components
@@ -32,8 +31,6 @@ export default function CartPage() {
     discountEmail,
     discount,
     applyDiscount,
-    shippingAddress,
-    setShippingAddress,
     clearCart
   } = useCart() as unknown as {
     cart: any[];
@@ -42,27 +39,8 @@ export default function CartPage() {
     discountEmail: string;
     discount: any;
     applyDiscount: (code: string) => void;
-    shippingAddress: ShippingAddress;
-    setShippingAddress: (value: ShippingAddress | ((prev: ShippingAddress) => ShippingAddress)) => void;
     clearCart: () => void;
   }
-
-  const initialized = React.useRef(false);
-
-  // Initialize shipping address with default values only once
-  useEffect(() => {
-    if (!initialized.current) {
-      setShippingAddress({
-        line1: '',
-        line2: '',
-        city: '',
-        postal_code: '',
-        country: 'United Kingdom',
-        email: ''
-      });
-      initialized.current = true;
-    }
-  }, [setShippingAddress]);
 
   console.log('Cart data in page:', cart) // Debug log
 
@@ -108,55 +86,7 @@ export default function CartPage() {
     }));
   };
 
-  const createOrder = async () => {
-    try {
-      const orderData = {
-        to_address: {
-          line1: shippingAddress.line1,
-          line2: shippingAddress.line2,
-          city: shippingAddress.city,
-          postal_code: shippingAddress.postal_code,
-          country: shippingAddress.country,
-          email: shippingAddress.email
-        },
-        line_items: formatLineItems(cart),
-        placed_at: new Date().toISOString(),
-        order_number: `CBD-${Date.now()}`,
-        order_status: "PAID",
-        shipping_cost: shipping.toString(),
-        shipping_cost_currency: "GBP",
-        shipping_method: "Hermes UK ParcelShop Drop-Off",
-        subtotal_price: subtotal.toFixed(2),
-        total_price: total.toFixed(2),
-        total_tax: "0.00",
-        currency: "GBP",
-        weight: "1",
-        weight_unit: "kg"
-      };
 
-      const response = await fetch('/api/shippo', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          orderData,
-          shippingAddress,
-          items: cart
-        })
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to create order');
-      }
-
-      return data;
-    } catch (error) {
-      console.error('Error creating order:', error);
-      throw error;
-    }
-  };
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -265,108 +195,10 @@ export default function CartPage() {
               </div>
             </div>
 
-            {/* Add Shipping Address Form */}
-            <div className="mt-6 border-t pt-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Shipping Address</h3>
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="shipping-line1" className="block text-sm font-medium text-gray-700">
-                    Address Line 1 *
-                  </label>
-                  <input
-                    type="text"
-                    id="shipping-line1"
-                    value={shippingAddress.line1}
-                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, line1: e.target.value }))}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                    required
-                  />
-                </div>
 
-                <div>
-                  <label htmlFor="shipping-line2" className="block text-sm font-medium text-gray-700">
-                    Address Line 2
-                  </label>
-                  <input
-                    type="text"
-                    id="shipping-line2"
-                    value={shippingAddress.line2}
-                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, line2: e.target.value }))}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="shipping-city" className="block text-sm font-medium text-gray-700">
-                      City *
-                    </label>
-                    <input
-                      type="text"
-                      id="shipping-city"
-                      value={shippingAddress.city}
-                      onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, city: e.target.value }))}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="shipping-postal_code" className="block text-sm font-medium text-gray-700">
-                      Postcode *
-                    </label>
-                    <input
-                      type="text"
-                      id="shipping-postal_code"
-                      value={shippingAddress.postal_code}
-                      onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, postal_code: e.target.value }))}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="shipping-country" className="block text-sm font-medium text-gray-700">
-                    Country *
-                  </label>
-                  <select
-                    id="shipping-country"
-                    value={shippingAddress.country}
-                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, country: e.target.value }))}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                    required
-                  >
-                    <option value="United Kingdom">United Kingdom</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="shipping-email" className="block text-sm font-medium text-gray-700">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="shipping-email"
-                    value={shippingAddress.email}
-                    onChange={(e) => setShippingAddress((prev: ShippingAddress) => ({ ...prev, email: e.target.value }))}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-moss-500 focus:ring-moss-500 sm:text-sm"
-                    required
-                    placeholder="your@email.com"
-                  />
-                </div>
-
-                {/* Add validation message */}
-                {shippingAddress.country !== "United Kingdom" && (
-                  <p className="text-red-500 text-sm mt-1">
-                    Currently, we only ship to addresses within the United Kingdom.
-                  </p>
-                )}
-              </div>
-            </div>
 
             <div className="mt-6">
-              <CoinbaseCheckout 
+              <PayPalCheckout 
                 product={{
                   name: 'Cart Purchase',
                   price: total,
@@ -374,24 +206,8 @@ export default function CartPage() {
                 }}
                 onSuccess={async () => {
                   try {
-                    // Validate shipping address is in UK
-                    if (shippingAddress.country !== "United Kingdom") {
-                      toast.error("We currently only ship to UK addresses");
-                      return;
-                    }
-
-                    // Validate required fields
-                    if (!shippingAddress.line1 || !shippingAddress.city || !shippingAddress.postal_code || !shippingAddress.email) {
-                      toast.error("Please fill in all required shipping address fields");
-                      return;
-                    }
-
-                    // Call Shippo API to create shipping label
-                    const shippoData = await createOrder();
-
-                    // Show success message
-                    const shippingCost = shippoData.selectedRate?.amount || '0';
-                    toast.success(`Payment successful! Shipping label created with ${shippoData.selectedRate?.provider} (${shippingCost} GBP)`);
+                    // Payment successful - order processing is handled by PayPal
+                    toast.success('Payment successful! Your order is being processed.');
                     
                     // Clear the cart after successful purchase
                     clearCart();
@@ -400,51 +216,10 @@ export default function CartPage() {
                     toast.error('Payment successful but failed to process order');
                   }
                 }}
-                onError={(error) => {
+                onError={(error: any) => {
                   toast.error(error.message || 'Payment failed');
                 }}
               />
-              
-              <div className="mt-3">
-                <StripeCheckout 
-                  product={{
-                    name: 'Cart Purchase',
-                    price: total,
-                    description: description
-                  }}
-                  onSuccess={async () => {
-                    try {
-                      // Validate shipping address is in UK
-                      if (shippingAddress.country !== "United Kingdom") {
-                        toast.error("We currently only ship to UK addresses");
-                        return;
-                      }
-
-                      // Validate required fields
-                      if (!shippingAddress.line1 || !shippingAddress.city || !shippingAddress.postal_code || !shippingAddress.email) {
-                        toast.error("Please fill in all required shipping address fields");
-                        return;
-                      }
-
-                      // Call Shippo API to create shipping label
-                      const shippoData = await createOrder();
-
-                      // Show success message
-                      const shippingCost = shippoData.selectedRate?.amount || '0';
-                      toast.success(`Payment successful! Shipping label created with ${shippoData.selectedRate?.provider} (${shippingCost} GBP)`);
-                      
-                      // Clear the cart after successful purchase
-                      clearCart();
-                    } catch (error) {
-                      console.error('Error processing order:', error);
-                      toast.error('Payment successful but failed to process order');
-                    }
-                  }}
-                  onError={(error) => {
-                    toast.error(error.message || 'Payment failed');
-                  }}
-                />
-              </div>
             </div>
           </div>
         </div>

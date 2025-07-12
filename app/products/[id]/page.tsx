@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useCart } from "@/components/cart-provider"
-import { CoinbaseCheckout } from "@/components/coinbase-checkout"
+
 import { toast } from "sonner"
 import { ShoppingBagIcon, MinusCircleIcon, PlusCircleIcon, HeartIcon, ShareIcon, ChevronRightIcon, StarIcon, TruckIcon } from "@heroicons/react/24/outline"
 
